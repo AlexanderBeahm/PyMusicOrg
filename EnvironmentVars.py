@@ -17,5 +17,6 @@ def LoadConfigFile():
     try:
         configStream = io.open("pymusicorg.config", "r")
         line = configStream.readline()   
+        #Need to nail down config file format
     except:
         print("'pymusicorg.config' not found.")
