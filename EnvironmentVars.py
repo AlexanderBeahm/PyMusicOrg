@@ -1,0 +1,1 @@
+#Getter and setters for key environment variables, only accessible via here.
