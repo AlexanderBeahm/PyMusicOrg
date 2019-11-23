@@ -28,6 +28,7 @@ class Env_Vars:
             configStream = io.open("PyMusicOrg.config", "r")
         except:
             print("'pymusicorg.config' not found.") 
+            return
         try:
             self.musicLibraryPath = self.process_config_line("musicLibraryPath", False, configStream)
             self.musicStagingPath = self.process_config_line("musicStagingPath", False, configStream)
@@ -54,4 +55,5 @@ class Env_Vars:
     '''
     def split_config_line(self, lineToSplit):
         lineParts = lineToSplit.split('=', 1)
-        return lineParts[1]
+        strippedLineParts = str.strip(lineParts[1], '"')
+        return strippedLineParts

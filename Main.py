@@ -1,3 +1,25 @@
+def recursive_folder_walk(currentPath):
+    dirs = os.listdir(config.toBeAddedPath)
+    filePathSeperator = "\\"
+    if(config.toBeAddedPath.endswith("\\") or config.toBeAddedPath.endswith("/")):
+        filePathSeperator = ""
+
+    for file in dirs:
+        formattedPath = "{0}\{1}".format(currentPath, file)
+        if(os.path.isdir(formattedPath)):
+            recursive_folder_walk(formattedPath)
+        else:
+            pass #TBC
+        print(os.path.isdir(formattedPath))
+        print(formattedPath)
+
+def is_archive_file(filePath):
+    pass
+
+def is_audio_file(filePath):
+    pass
+
+
 #Main entry point and music reorg algorithm will be handled here
 from env_vars import Env_Vars
 import io
@@ -30,24 +52,3 @@ while True:
     #Move each grouping, except for unfound groupings we will keep those in staging and let user know metadata isn't found
 
     break
-
-def recursive_folder_walk(currentPath):
-    dirs = os.listdir(config.toBeAddedPath)
-    filePathSeperator = "\\"
-    if(config.toBeAddedPath.endswith("\\") or config.toBeAddedPath.endswith("/")):
-        filePathSeperator = ""
-
-    for file in dirs:
-        formattedPath = "{0}\{1}".format(currentPath, file)
-        if(os.path.isdir(formattedPath)):
-            recursive_folder_walk(formattedPath)
-        else:
-            pass #TBC
-        print(os.path.isdir(formattedPath))
-        print(formattedPath)
-
-def is_archive_file(filePath):
-    pass
-
-def is_audio_file(filePath):
-    pass
