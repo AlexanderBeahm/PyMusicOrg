@@ -47,7 +47,6 @@ class Env_Vars:
         '''
         line = config_stream.readline()
         line = self.split_config_line(line)
-        line = str.strip(line)
         if(not line and not empty_allowed):
             raise ConfigFormatError(config_elem_name, "Config line not populated")
         return line
@@ -57,5 +56,5 @@ class Env_Vars:
         '''Splits config line on equals string
         '''
         line_parts = line_to_split.split('=', 1)
-        stripped_line_parts = str.strip(line_parts[1], '"')
+        stripped_line_parts = str.strip(line_parts[1]).strip('"')
         return stripped_line_parts
