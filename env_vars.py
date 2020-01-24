@@ -1,59 +1,61 @@
-#Getter and setters for key environment variables, only accessible via here.
-
 import io
 import string
 from custom_exceptions import ConfigFormatError
 
 class Env_Vars:
     def __init__(self):
-        self.musicLibraryPath = ''
-        self.musicStagingPath = ''
-        self.toBeAddedPath = ''
+        self.music_library_path = ''
+        self.music_staging_path = ''
+        self.to_be_added_path = ''
+        self.folder_exclusions = []
 
-    '''
-    Updates environment config variables and writes to config file
-    '''
-    def update_env_config(self, musicLibrary, musicStaging, toBeAdded):
-        musicLibraryPath = musicLibrary
-        musicStagingPath = musicStaging
-        toBeAddedPath = toBeAdded
-        print(musicLibraryPath, musicStagingPath, toBeAddedPath)
+
+    def update_env_config(self, music_library, music_staging, to_be_added, exclusions):
+        '''Updates environment config variables and writes to config file
+        '''
+        self.music_library_path = music_library
+        self.music_staging_path = music_staging
+        self.to_be_added_path = to_be_added
+        self.folder_exclusions = exclusions
+        print(self.music_library_path, self.music_staging_path, self.to_be_added_path, self.folder_exclusions)
         #Config file writing TBA
 
-    '''
-    Loads config file into env_vars variables
-    '''
+
     def load_config(self):
+        '''Loads config file into env_vars variables
+        '''
         try:
-            configStream = io.open("PyMusicOrg.config", "r")
+            config_stream = io.open("PyMusicOrg.config", "r")
         except:
             print("'pymusicorg.config' not found.") 
             return
         try:
-            self.musicLibraryPath = self.process_config_line("musicLibraryPath", False, configStream)
-            self.musicStagingPath = self.process_config_line("musicStagingPath", False, configStream)
-            self.toBeAddedPath = self.process_config_line("toBeAddedPath", False, configStream)
+            self.music_library_path = self.process_config_line("musicLibraryPath", False, config_stream)
+            self.music_staging_path = self.process_config_line("musicStagingPath", False, config_stream)
+            self.to_be_added_path = self.process_config_line("toBeAddedPath", False, config_stream)
+            exclusion_csv = self.process_config_line("excludedToBeAddedFolders", False, config_stream)
+            self.folder_exclusions = exclusion_csv.split(',')
         except ConfigFormatError as err:
             print("'pymusicorg.config' formatted incorrectly, please see associated exception and project readme for proper input")
             print("Error:%s; Config line affected:%s;" % (err.message, err.configLine))
         except Exception as err:
             print("Error:%s;" % (format(err)))
 
-    '''
-    Process config line reading
-    '''
-    def process_config_line(self, configElemName, emptyAllowed, configStream):
-        line = configStream.readline()
+
+    def process_config_line(self, config_elem_name, empty_allowed, config_stream):
+        '''Process config line reading
+        '''
+        line = config_stream.readline()
         line = self.split_config_line(line)
         line = str.strip(line)
-        if(not line and not emptyAllowed):
-            raise ConfigFormatError(configElemName, "Config line not populated")
+        if(not line and not empty_allowed):
+            raise ConfigFormatError(config_elem_name, "Config line not populated")
         return line
 
-    '''
-    Splits config line on equals string
-    '''
-    def split_config_line(self, lineToSplit):
-        lineParts = lineToSplit.split('=', 1)
-        strippedLineParts = str.strip(lineParts[1], '"')
-        return strippedLineParts
+
+    def split_config_line(self, line_to_split):
+        '''Splits config line on equals string
+        '''
+        line_parts = line_to_split.split('=', 1)
+        stripped_line_parts = str.strip(line_parts[1], '"')
+        return stripped_line_parts

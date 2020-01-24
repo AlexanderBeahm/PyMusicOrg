@@ -1,5 +1,7 @@
 __pycache__/EnvironmentVars.cpython-37.pyc
-PyMusicOrg.config
+pymusicorg.config
 .vscode/launch.json
 __pycache__/
 *.pyc
+pymusicorg/
+.vscode/
