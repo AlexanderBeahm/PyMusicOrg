@@ -25,7 +25,7 @@ class Env_Vars:
         '''Loads config file into env_vars variables
         '''
         try:
-            config_stream = io.open("PyMusicOrg.config", "r")
+            config_stream = io.open("pymusicorg.config", "r")
         except:
             print("'pymusicorg.config' not found.") 
             return
