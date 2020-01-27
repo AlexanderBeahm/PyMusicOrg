@@ -1,4 +1,5 @@
 import boto3
+from file_info import FileInfo
 
 class S3Client:
     def __init__(self, access_key, secret_key, bucket_name, bucket_region):
@@ -23,9 +24,10 @@ class S3Client:
             self.client = boto3.client('s3', aws_access_key_id=self.access_key, aws_secret_access_key=self.secret_key)
         return self.client
 
-    def upload(self, file_location, key):
+    def upload(self, file_info):
         client = self.get_client()
         try:
-            client.put_object(Body=file_location, Bucket=self.bucket_name, Key=key)
+            formatted_path = 'MusicLibrary/{}'.format(file_info.file_name)
+            client.upload_file(Filename=file_info.full_path, Bucket=self.bucket_name, Key=formatted_path)
         except Exception as e:
             print("S3 Connection Error: {}".format(e.args[0]))
