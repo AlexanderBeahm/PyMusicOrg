@@ -26,6 +26,7 @@ def recursive_folder_walk(config, current_path):
         elif is_archive_file(formatted_path):
             print("Is archive:")
             print(formatted_path)
+            config.s3client.upload(formatted_path, "MusicLibrary/Test.zip")
             unzip(formatted_path, config.music_staging_path)
         elif is_audio_file(formatted_path):
             print("Is audio file:")
