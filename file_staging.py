@@ -4,6 +4,7 @@ import os
 import mutagen
 from pyunpack import Archive
 import ntpath
+from file_info import FileInfo
 
 supported_filetypes = ['.aac','.ac3','.aiff','.flac','.mp3','.mp4','.ogg','.wav']
 supported_archives = ['.zip','.7z','.rar']
@@ -19,20 +20,19 @@ def recursive_folder_walk(config, current_path):
 
     for file in dirs:
         formatted_path = "{0}\{1}".format(current_path, file)
+        file_info = get_file_info(formatted_path)
         if os.path.isdir(formatted_path):
-            print("Is folder:")
-            print(formatted_path)
             recursive_folder_walk(config, formatted_path)
         elif is_archive_file(formatted_path):
-            print("Is archive:")
-            print(formatted_path)
+            config.s3client.upload(file_info)
             unzip(formatted_path, config.music_staging_path)
         elif is_audio_file(formatted_path):
-            print("Is audio file:")
-            print(formatted_path)
+            pass
         else:
-            print("Is some other file...:")
-            print(formatted_path)
+            pass
+
+def get_file_info(file_path):
+    return FileInfo(file_path)
 
 def is_archive_file(file_path):
     filename, file_extension = os.path.splitext(file_path)

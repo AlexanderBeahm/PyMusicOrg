@@ -1,5 +1,6 @@
 import io
 import string
+from s3client import S3Client
 from custom_exceptions import ConfigFormatError
 
 class Env_Vars:
@@ -33,8 +34,13 @@ class Env_Vars:
             self.music_library_path = self.process_config_line("musicLibraryPath", False, config_stream)
             self.music_staging_path = self.process_config_line("musicStagingPath", False, config_stream)
             self.to_be_added_path = self.process_config_line("toBeAddedPath", False, config_stream)
-            exclusion_csv = self.process_config_line("excludedToBeAddedFolders", False, config_stream)
+            exclusion_csv = self.process_config_line("excludedToBeAddedFolders", True, config_stream)
             self.folder_exclusions = exclusion_csv.split(',')
+            iam_key = self.process_config_line("iam_access_key", True, config_stream)
+            iam_secret = self.process_config_line("iam_access_key", True, config_stream)
+            s3_bucket_name = self.process_config_line("s3_bucket_name", True, config_stream)
+            s3_bucket_region = self.process_config_line("s3_bucket_region", True, config_stream)
+            self.s3client = S3Client(iam_key, iam_secret, s3_bucket_name, s3_bucket_region)
         except ConfigFormatError as err:
             print("'pymusicorg.config' formatted incorrectly, please see associated exception and project readme for proper input")
             print("Error:%s; Config line affected:%s;" % (err.message, err.configLine))
