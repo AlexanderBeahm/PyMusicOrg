@@ -1,5 +1,5 @@
 import boto3
-from file_info import FileInfo
+from file_modules.file_info import FileInfo
 
 class S3Client:
     def __init__(self, access_key, secret_key, bucket_name, bucket_region):

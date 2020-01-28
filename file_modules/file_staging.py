@@ -4,7 +4,7 @@ import os
 import mutagen
 from pyunpack import Archive
 import ntpath
-from file_info import FileInfo
+from file_modules.file_info import FileInfo
 
 supported_filetypes = ['.aac','.ac3','.aiff','.flac','.mp3','.mp4','.ogg','.wav']
 supported_archives = ['.zip','.7z','.rar']
